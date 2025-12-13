@@ -14,18 +14,22 @@ if (!cached) {
 
 async function connectDB() {
   if (cached.conn) {
-    console.log("Using existing MongoDB connection");
+    console.log("[DB] Using existing MongoDB connection");
     return cached.conn;
   }
 
   if (!cached.promise) {
-    console.log("Attempting MongoDB connection...");
+    console.log("[DB] Attempting MongoDB connection...");
     cached.promise = mongoose.connect(MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }).then((mongoose) => {
-      console.log("MongoDB connected!");
+      dbName: process.env.MONGODB_DB,
+    })
+    .then((mongoose) => {
+      console.log("[DB] ✅ MongoDB connected!");
       return mongoose;
+    })
+    .catch((error) => {
+      console.error("[DB] ❌ Connection error:", error);
+      throw error;
     });
   }
 
