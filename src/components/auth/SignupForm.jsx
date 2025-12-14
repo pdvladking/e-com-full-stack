@@ -3,9 +3,13 @@
 import { useState } from "react";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
+import { useAuth } from "./AuthProvider";
 
 export default function SignupForm() {
+  const { signup } = useAuth();
+
   const [formData, setFormData] = useState({
+    name: "",          
     email: "",
     password: "",
     confirmPassword: "",
@@ -20,9 +24,14 @@ export default function SignupForm() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
+
+    // ✅ Name validation
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    }
 
     // ✅ Email validation
     if (!formData.email.trim()) {
@@ -44,13 +53,23 @@ export default function SignupForm() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Recruiter-grade checkpoint: ready to send to backend
-      console.log("Form submitted:", formData);
+      await signup(formData); 
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
+      <Input
+        type="text"
+        name="name"
+        placeholder="Name"
+        value={formData.name}
+        onChange={handleChange}
+        variant={errors.name ? "error" : "default"}
+        errorMessage={errors.name}
+        fullWidth
+      />
+
       <Input
         type="email"
         name="email"
