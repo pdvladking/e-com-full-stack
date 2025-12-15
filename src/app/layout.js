@@ -2,7 +2,6 @@ import "./styles/globals.css";
 import AuthProvider from "@/components/auth/AuthProvider";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
-import SidebarFilter from "@/components/ui/SidebarFilter";
 
 export const metadata = {
   title: "My E-com App",
@@ -16,10 +15,8 @@ export default function RootLayout({ children }) {
         <AuthProvider>
           <Navbar />
 
-
           <main className="min-h-screen">
-            
-            <SidebarFilter />
+            {children}
           </main>
 
           <Footer />

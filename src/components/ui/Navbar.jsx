@@ -9,11 +9,11 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   const links = [
-    { href: "/studio", label: "Studio" },
-    { href: "/artists", label: "Artists" },
-    { href: "/gallery", label: "Gallery" },
-    { href: "/bookings", label: "Bookings" },
-    { href: "/testimonials", label: "Testimonials" },
+    { href: "/Trends", label: "Trends" },
+    { href: "/Shop", label: "Shop" },
+    { href: "/Crafted Stories", label: "Crafted Stories" },
+    { href: "/Contact", label: "Contact" },
+    { href: "/About us", label: "About us" },
   ];
 
   const handleLinkClick = () => setOpen(false);
