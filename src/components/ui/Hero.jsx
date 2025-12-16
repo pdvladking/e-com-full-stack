@@ -5,7 +5,7 @@ import ButtonLink from "./ButtonLink";
 
 export default function Hero() {
   return (
-    <section className="relative w-full h-[700px]">
+    <section className="relative w-full h-[600px]">
       
       {/* Background Image */}
       <Image
@@ -21,17 +21,17 @@ export default function Hero() {
 
       {/* Content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-          Crafted for Legacy.
+        <h1 className="text-4xl md:text-5xl font-semibold font-playfair text-white mb-4">
+          Crafted for Legacy. <br />
           Designed for Now.
         </h1>
         <p className="text-lg text-gray-200 mb-6 max-w-2xl">
-          Hand-stitched leather goods that age with grace. Built to last. Styled to lead.
+          Hand-stitched leather goods that age with grace. Built to last. <br /> Styled to lead.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4">
-          <Button variant="primary">Shop Now</Button>
+        <div className="flex flex-row gap-4">
+          <Button variant="primary">Shop Collection</Button>
           <ButtonLink href="/products" variant="secondary">
-          Browse Products
+          Our Story
           </ButtonLink>
         </div>
       </div>
