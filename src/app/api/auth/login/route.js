@@ -3,16 +3,32 @@ import { login } from "@/controllers/authController";
 export async function POST(req) {
   try {
     const body = await req.json();
-    const user = await login(body);
 
-    return new Response(JSON.stringify(user), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    }); 
+    const { safeUser, token } = await login(body);
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        data: {user: safeUser, token },
+      }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 400,
-      headers: { "Content-Type": "application/json"},
-    });
+     const statusCode = 
+     error.message === "Invalid credentials" ? 401 : 400;
+
+     return new Response(
+      JSON.stringify({
+        success: false,
+        error: error.message,
+      }),
+      {
+        status: statusCode,
+        headers: { "Content-Type": "application/json" },
+      }
+     );
   }
 }

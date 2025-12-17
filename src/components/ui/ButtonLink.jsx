@@ -3,7 +3,7 @@ import React from "react";
 import NextLink from "next/link";
 
 const base =
-  "inline-flex items-center justify-center rounded-full font-medium transition-colors focus:outline-none focus:ring-2 focus-offset-2 disabled:opacity-60 disabled:cursor-not-allowed whitespace-nowrap";
+  "inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus-offset-2 disabled:opacity-60 disabled:cursor-not-allowed whitespace-nowrap";
 
 const sizes = {
   sm: "h-9 px-3 text-sm",
@@ -13,9 +13,9 @@ const sizes = {
 
 const variants = {
   primary:
-    "bg-blue-600 text-white font-semibold shadow-md transition-transform hover:scale-110 hover:bg-blue-600 focus:ring-2",
+    "bg-blue-600 text-white shadow-md transition-transform hover:scale-110 hover:bg-blue-700 focus:ring-2",
   secondary:
-    "bg-transparent border-2 border-blue-500 text-neutral-200 font-semibold transition-colors hover:bg-blue-600 hover:text-white focus:ring-2",
+  "bg-white border-1 border-blue-500 text-blue-700  transition-colors hover:bg-blue-600 hover:text-white focus:ring-2",
 };
 
 export default function ButtonLink({
