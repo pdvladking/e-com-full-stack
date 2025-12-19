@@ -21,7 +21,7 @@ export default function Hero() {
 
       {/* Content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-        <h1 className="text-4xl md:text-5xl font-semibold font-playfair text-white mb-4">
+        <h1 className="text-4xl md:text-6xl font-semibold font-playfair text-white leading-tight mb-6">
           Crafted for Legacy. <br />
           Designed for Now.
         </h1>

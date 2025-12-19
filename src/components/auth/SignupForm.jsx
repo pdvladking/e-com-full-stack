@@ -9,7 +9,7 @@ export default function SignupForm() {
   const { signup } = useAuth();
 
   const [formData, setFormData] = useState({
-    name: "",          
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -28,32 +28,22 @@ export default function SignupForm() {
     e.preventDefault();
     const newErrors = {};
 
-    // ✅ Name validation
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
-    }
-
-    // ✅ Email validation
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    }
-
-    // ✅ Password validation
-    if (!formData.password) {
-      newErrors.password = "Password is required";
-    } else if (formData.password.length < 6) {
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    if (!formData.password) newErrors.password = "Password is required";
+    else if (formData.password.length < 6)
       newErrors.password = "Password must be at least 6 characters";
-    }
-
-    // ✅ Confirm password validation
-    if (formData.password !== formData.confirmPassword) {
+    if (formData.password !== formData.confirmPassword)
       newErrors.confirmPassword = "Passwords do not match";
-    }
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      await signup(formData); 
+      await signup({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
     }
   };
 
@@ -69,7 +59,6 @@ export default function SignupForm() {
         errorMessage={errors.name}
         fullWidth
       />
-
       <Input
         type="email"
         name="email"
@@ -80,7 +69,6 @@ export default function SignupForm() {
         errorMessage={errors.email}
         fullWidth
       />
-
       <Input
         type="password"
         name="password"
@@ -91,7 +79,6 @@ export default function SignupForm() {
         errorMessage={errors.password}
         fullWidth
       />
-
       <Input
         type="password"
         name="confirmPassword"
@@ -102,7 +89,6 @@ export default function SignupForm() {
         errorMessage={errors.confirmPassword}
         fullWidth
       />
-
       <Button type="submit" variant="primary" fullWidth>
         Sign Up
       </Button>

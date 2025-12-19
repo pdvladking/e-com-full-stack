@@ -15,7 +15,7 @@ const variants = {
   primary:
     "bg-blue-600 text-white shadow-md transition-transform hover:scale-110 hover:bg-blue-700 focus:ring-2",
   secondary:
-  "bg-white border-1 border-blue-500 text-blue-700  transition-colors hover:bg-blue-600 hover:text-white focus:ring-2",
+  "bg-neutral border-1 border-white text-white  transition-colors hover:bg-blue-600 hover:text-white focus:ring-2",
 };
 
 export default function ButtonLink({

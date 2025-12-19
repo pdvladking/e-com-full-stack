@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema(
       required: true,
       match: [/^\S+@\S+\.\S+$/, "Invalid email"],
     },
-    passwordHash: { type: String, required: true },
+    password: { type: String, required: true },
     role: { type: String, enum: ["customer", "admin"], default: "customer" },
   },
   { timestamps: true }
