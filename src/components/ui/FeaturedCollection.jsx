@@ -31,7 +31,7 @@ export default function FeaturedDrop() {
   ];
 
   return (
-    <section className="max-w-[1200px] mx-auto px-6 py-12">
+    <section className="w-full mx-auto px-6 py-12">
       <h2 className="text-4xl font-bold text-center mb-6">Featured Drop</h2>
       <p className="text-center text-neutral-600 mb-12">
         A curated selection of our most loved pieces—crafted to stand out.

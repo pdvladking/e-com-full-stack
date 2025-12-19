@@ -1,6 +1,8 @@
 "use client";
 import Hero from "@/components/ui/Hero";
 import FeaturedDrop from "@/components/ui/FeaturedCollection";
+import TestimonialStrip from "@/components/ui/TestimonialsStrip";
+import NewsletterSignup from "@/components/ui/NewsletterSignup";
 
 
 export default function Homepage() {
@@ -8,6 +10,8 @@ export default function Homepage() {
     <>
     <Hero />
     <FeaturedDrop />
+    <TestimonialStrip />
+    <NewsletterSignup />
     </>
   )
 }
