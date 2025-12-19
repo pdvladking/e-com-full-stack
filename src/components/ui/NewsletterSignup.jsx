@@ -23,7 +23,6 @@ export default function NewsletterSignup() {
         />
         <ButtonLink
         href="/subscribe"
-        className="bg-sky-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-sky-700 transition"
       >
         Subscribe
       </ButtonLink>
