@@ -8,7 +8,6 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   const links = [
-    { href: "/trends", label: "Trends" },
     { href: "/shop", label: "Shop" },
     { href: "/crafted-stories", label: "Crafted Stories" },
     { href: "/contact", label: "Contact" },

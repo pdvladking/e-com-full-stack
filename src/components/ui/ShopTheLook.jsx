@@ -73,7 +73,7 @@ export default function ShopTheLook() {
                 </div>
 
                 {/* Right: Text + Products */}
-                <div>
+                <div className="bg-neutral-50">
                   <h3 className="text-2xl font-serif mb-6">
                     {look.title}
                   </h3>

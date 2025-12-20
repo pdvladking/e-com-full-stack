@@ -12,7 +12,6 @@ export default function FooterSection() {
   }, []);
 
   const navLinks = [
-    { href: "/trends", label: "Trends" },
     { href: "/shop", label: "Shop" },
     { href: "/crafted-stories", label: "Crafted Stories" },
     { href: "/contact", label: "Contact" },
