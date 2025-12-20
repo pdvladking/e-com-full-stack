@@ -1,59 +1,51 @@
-"use client";
-import Image from "next/image";
-import ButtonLink from "./ButtonLink";
+import React from "react";
 
-const looks = [
-  {
-    id: 1,
-    title: "Casual Streetwear",
-    image: "/images/look-1.webp",
-    href: "/products/casual-streetwear",
-  },
-  {
-    id: 2,
-    title: "Elegant Evening",
-    image: "/images/look-2.webp",
-    href: "/products/elegant-evening",
-  },
-  {
-    id: 3,
-    title: "Weekend Essentials",
-    image: "/images/look-3.webp",
-    href: "/products/weekend-essentials",
-  },
-];
-
-export default function ShopTheLook() {
+const ShopTheLook = () => {
   return (
-    <section className="w-full max-w-screen-2xl mx-auto px-6 py-16">
-      {/* Heading */}
-      <h2 className="text-4xl font-bold mb-12 text-center">
-        Shop The Look
-      </h2>
+    <section className="bg-white dark:bg-black py-24 px-6 md:px-16">
+      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
 
-      {/* Grid of looks */}
-      <div className="grid gap-12 md:grid-cols-3">
-        {looks.map((look) => (
-          <div key={look.id} className="flex flex-col items-center">
-            <div className="relative aspect-[3/4] w-full">
-              <Image
-                src={look.image}
-                alt={look.title}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
-                className="object-cover rounded-lg shadow-md"
-              />
-            </div>
-            <h3 className="text-lg font-semibold mt-4 mb-2">{look.title}</h3>
-            <ButtonLink
-              href={look.href}
-              className="bg-sky-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-sky-700 transition"
-            >
-              View Look
-            </ButtonLink>
-          </div>
-        ))}
+        <div className="overflow-hidden rounded-lg shadow-lg">
+          <img
+            src="/images/look-4.webp"
+            alt="Styled outfit"
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+
+        <div>
+          <h2 className="text-3xl md:text-5xl font-serif text-black dark:text-white mb-6">
+            Shop the Look
+          </h2>
+          <p className="text-neutral-700 dark:text-gray-300 mb-8 text-lg">
+            From morning walks to gallery dates, this look is built for quiet confidence and everyday luxury.
+          </p>
+
+          <ul className="space-y-6">
+            <li className="flex items-center justify-between">
+              <span className="text-black dark:text-white">The Soft Wool Coat</span>
+              <button className="text-sm text-black dark:text-white underline hover:opacity-70">
+                View
+              </button>
+            </li>
+            <li className="flex items-center justify-between">
+              <span className="text-black dark:text-white">Minimal Leather Crossbody</span>
+              <button className="text-sm text-black dark:text-white underline hover:opacity-70">
+                View
+              </button>
+            </li>
+            <li className="flex items-center justify-between">
+              <span className="text-black dark:text-white">Low-Profile Suede Boots</span>
+              <button className="text-sm text-black dark:text-white underline hover:opacity-70">
+                View
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
     </section>
   );
-}
+};
+
+export default ShopTheLook;
