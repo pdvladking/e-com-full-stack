@@ -32,7 +32,7 @@ export default function TestimonialStrip() {
             className="text-left p-6 rounded-lg shadow-sm hover:shadow-md bg-neutral-50"
             >
               <p className="italic text-neutral-700 mb-4">
-                "{t.quote}"
+                &quot;{t.quote}&quot;
               </p>
               <p className="text-sm font-semibold">
                 - {t.name}

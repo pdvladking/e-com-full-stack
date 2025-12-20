@@ -4,7 +4,7 @@ import Input from "./Input";
 
 export default function NewsletterSignup() {
   return (
-    <section className="w-full max-w-screen mx-auto px-6 py-16 text-center">
+    <section className="w-full bg-neutral-50 max-w-screen mx-auto px-6 py-16 text-center">
       {/* Heading */}
       <h2 className="text-4xl font-bold mb-4">
         Join Our Newsletter

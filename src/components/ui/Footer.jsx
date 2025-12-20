@@ -12,17 +12,17 @@ export default function FooterSection() {
   }, []);
 
   const navLinks = [
-    { href: "/bookings", label: "Book" },
-    { href: "/gallery", label: "Gallery" },
-    { href: "/artists", label: "Artists" },
-    { href: "/studio", label: "About" },
-    { href: "/testimonials", label: "Testimonials" },
+    { href: "/trends", label: "Trends" },
+    { href: "/shop", label: "Shop" },
+    { href: "/crafted-stories", label: "Crafted Stories" },
+    { href: "/contact", label: "Contact" },
+    { href: "/about-us", label: "About Us" },
   ];
 
   const contacts = [
-    { icon: FaPhone, text: "+977-9816245996", href: "tel:+9779816245996", label: "Call Eden Tattoo Nepal" },
-    { icon: FaEnvelope, text: "edentattoo73@gmail.com", href: "mailto:edentattoo73@gmail.com", label: "Email Eden Tattoo Nepal" },
-    { icon: FaWhatsapp, text: "WhatsApp", href: "https://wa.me/9779816245996", label: "WhatsApp Eden Tattoo Nepal" },
+    { icon: FaPhone, text: "+977-XXXXXXXXX", href: "tel:+XXXXXX", label: "Call Eden Tattoo Nepal" },
+    { icon: FaEnvelope, text: "xyz@gmail.com", href: "mailto:edentattoo73@gmail.com", label: "Email Eden Tattoo Nepal" },
+    { icon: FaWhatsapp, text: "WhatsApp", href: "https://wa.me/", label: "WhatsApp Eden Tattoo Nepal" },
   ];
 
   const socials = [
@@ -36,16 +36,14 @@ export default function FooterSection() {
   ];
 
   const policies = [
-    "Clients must be 18 or older to get tattooed.",
-    "Diabetic clients require medical clearance before booking.",
-    "Drug and alcohol use is strictly prohibited on studio premises.",
-    "Respectful behavior is mandatory at all times.",
+    "Goods once sold cannot b returned.",
+    "Other policies.",
   ];
 
   return (
     <footer
       id="footer"
-      className={`bg-linear-to-tl from-neutral-50 to-sky-50 text-neutral-800 py-20 px-6 transition-all duration-700 ease-out ${
+      className={`bg-neutral-50 text-neutral-800 py-20 px-6 transition-all duration-700 ease-out ${
         loaded ? "opacity-100 scale-100" : "opacity-0 scale-95"
       }`}
     >
@@ -54,11 +52,11 @@ export default function FooterSection() {
         {/* Left Column: Studio Info + Map */}
         <div className="space-y-6">
           <h2 className="font-playfair-display text-xl font-semibold tracking-wide">
-            Eden Tattoo Nepal
+            RAWHIDE LEATHERS
           </h2>
-          <div className="rounded-xl overflow-hidden shadow-lg ring-1 ring-yellow-500/20">
+          <div className="rounded-xl overflow-hidden shadow-lg ring-1 ring-neutral-500/20">
             <iframe
-              src="https://maps.google.com/maps?q=Eden%20Tattoo%20Studio%20Kathmandu&t=&z=15&ie=UTF8&iwloc=&output=embed"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.466894517778!2d85.3004296!3d27.702867200000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1927c511fec9%3A0x347f008b65583ac4!2sRawhide%20Leathers!5e0!3m2!1sen!2snp!4v1766222969137!5m2!1sen!2snp"
               width="100%"
               height="300"
               style={{ border: 0 }}
@@ -75,7 +73,7 @@ export default function FooterSection() {
           {/* Nav Links in Row */}
           <nav className="flex flex-wrap justify-center md:justify-start gap-6 text-sm font-medium">
             {navLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="hover:text-yellow-500 transition">
+              <Link key={link.href} href={link.href} className="hover:text-neutral-500 transition">
                 {link.label}
               </Link>
             ))}
@@ -90,7 +88,7 @@ export default function FooterSection() {
                 target={href.startsWith("http") ? "_blank" : undefined}
                 rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
                 aria-label={label}
-                className="hover:text-yellow-500 transition flex items-center gap-2"
+                className="hover:text-neutral-500 transition flex items-center gap-2"
               >
                 <Icon /> {text}
               </a>
@@ -106,21 +104,11 @@ export default function FooterSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="hover:text-yellow-500 transition transform hover:scale-110 hover:-translate-y-1"
+                className="hover:text-neutral-500 transition transform hover:scale-110 hover:-translate-y-1"
               >
                 <Icon />
               </a>
             ))}
-          </div>
-
-          {/* Studio Hours */}
-          <div className="text-sm text-neutral-600">
-            <h3 className="font-semibold mb-2">Studio Hours</h3>
-            <ul className="space-y-1">
-              {studioHours.map(({ day, time }, i) => (
-                <li key={i}>{day}: {time}</li>
-              ))}
-            </ul>
           </div>
 
           {/* Policies */}
@@ -131,16 +119,16 @@ export default function FooterSection() {
       </div>
 
       {/* Divider + Copyright */}
-      <div className="w-full h-px bg-linear-to-r from-yellow-600/20 via-gray-600/10 to-yellow-500/20 my-10" />
+      <div className="w-full h-px bg-linear-to-r from-neutral-600/20 via-gray-600/10 to-neutral-500/20 my-10" />
       <div className="text-center space-y-2 text-xs text-neutral-500">
-        <p>© {new Date().getFullYear()} Eden Tattoo Nepal. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} RAWHIDE Nepal. All rights reserved.</p>
         <p>
           Built and designed by{" "}
           <a
             href="https://rajathapa.com.np"
             target="_blank"
             rel="noopener noreferrer"
-            className="underline hover:text-yellow-500 transition"
+            className="underline hover:text-neutral-500 transition"
           >
             Rajthapa.com.np
           </a>
