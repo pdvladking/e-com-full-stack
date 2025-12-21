@@ -1,30 +1,24 @@
-"use client";
-import Image from "next/image";
+import AddToCartButton from "../cart/AddToCartButton";
 
-export default function ProductDetail({ product }) {
+const products = [
+  { _id: "1", name: "Leather Jacket", slug: "leather-jacket", price: 120, description: "Classic rawhide leather jacket."},
+  { _id: "2", name: "Leather Jacket", slug: "leather-jacket", price: 45, description: "Classic rawhide leather jacket."},
+  { _id: "3", name: "Leather Jacket", slug: "leather-jacket", price: 150, description: "Classic rawhide leather jacket."},
+];
+
+export default function ProductDetail({ params }) {
+  const product = products.find((p) => p.slug === params.slug);
+
+  if (!product) {
+    return <div>Product not found</div>;
+  }
+
   return (
-    <div className="p-6">
-      <div className="flex flex-col md:flex-row gap-6">
-        {/* Product Image */}
-        <Image
-        src={product.image}
-        alt={product.name}
-        width={500}
-        height={400}
-        className="w-full md:w-1/2 h-64 object-cover rounded"
-        />
-
-        {/* Product Info */}
-        <div className="flex-1">
-          <h1 className="text-2xl font-bold mb-2">{product.name}</h1>
-          <p className="text-gray-600 mb-4">{product.description}</p>
-          <p className="text-xl font-semibold mb-4">${product.price}</p>
-
-          <button className="px-4 py-2 bg-blue-600 text-white rounded">
-            Add to Cart
-          </button>
-        </div>
-      </div>
+    <div>
+      <h1>{product.name}</h1>
+      <p>{product.description}</p>
+      <p>Price: {product.price}</p>
+      <AddToCartButton product={product} />
     </div>
-  )
+  );
 }

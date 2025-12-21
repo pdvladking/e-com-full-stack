@@ -1,39 +1,24 @@
-import mongoose from "mongoose";
+import { MongoClient } from "mongodb";
 
-const MONGODB_URI = process.env.MONGODB_URI;
-const MONGODB_DB = process.env.MONGODB_DB || "ecom";
+const uri = process.env.MONGODB_URI;
+const options = {};
 
-if (!MONGODB_URI) {
-  throw new Error("Please define MONGODB_URI in .env.local");
+let client;
+let clientPromise;
+
+if (!process.env.MONGODB_URI) {
+  throw new Error("Please add your MONGODB URI to .env.local");
 }
 
-let cached = global.mongoose;
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
-}
-
-async function connectDB() {
-  if (cached.conn) {
-    console.log("[DB] Using existing MongoDB connection");
-    return cached.conn;
+if (process.env.NODE_ENV === "development") {
+  if (!global._mongoClientPromise) {
+    client = new MongoClient(uri, options);
+    global._mongoClientPromise = client.connect();
   }
-
-  if (!cached.promise) {
-    console.log("[DB] Attempting MongoDB connection...");
-    cached.promise = mongoose
-      .connect(MONGODB_URI, { dbName: MONGODB_DB })
-      .then((mongoose) => {
-        console.log("[DB] ✅ MongoDB connected!");
-        return mongoose;
-      })
-      .catch((error) => {
-        console.error("[DB] ❌ Connection error:", error);
-        throw error;
-      });
-  }
-
-  cached.conn = await cached.promise;
-  return cached.conn;
+  clientPromise = global._mongoClientPromise;
+} else {
+  client = new MongoClient(uri, options);
+  clientPromise = client.connect();
 }
 
-export default connectDB;
+export default clientPromise;

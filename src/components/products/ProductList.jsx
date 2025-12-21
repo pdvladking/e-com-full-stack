@@ -1,12 +1,20 @@
-"use client";
-import ProductCard from "./ProductCard";
+import ProductCard from "@/components/products/ProductCard";
 
-export default function ProductList ({ products }) {
+const products = [
+  { _id: "1", name: "Leather Jacket", slug: "leather-jacket", price: 120 },
+  { _id: "2", name: "Rawhide Wallet", slug: "rawhide-wallet", price: 45 },
+  { _id: "3", name: "Cowboy Boots", slug: "cowboy-boots", price: 150 },
+];
+
+export default function ProductList() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+    <div>
+      <h1>Products</h1>
+      <div>
+        {products.map((product) => (
+          <ProductCard key={product._id} product={product} />
+        ))}
+      </div>
     </div>
-  )
+  );
 }

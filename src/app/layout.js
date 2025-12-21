@@ -1,6 +1,7 @@
 import '@/app/styles/globals.css'
 import FooterSection from '@/components/ui/Footer';
 import Navbar from '@/components/ui/Navbar';
+import { CartProvider } from '@/context/CartContext';
 
 export const metadata = {
   title: 'My Next.js App',
@@ -12,7 +13,9 @@ export default function RootLayout ({ children }) {
     <html lang='en'>
       <body>
         <Navbar />
+        <CartProvider>
         {children}
+        </CartProvider>
         <FooterSection />
       </body>
     </html>

@@ -1,20 +1,21 @@
 "use client";
-import Image from "next/image";
+import { useCart } from "@/context/CartContext";
+import Link from "next/link";
 
-export default function ProductCard ({ product }) {
+export default function ProductCard({ product }) {
+  const { addItem } = useCart();
+
   return (
-    <div className="border rounded p-4 shadow-sm hover:shadow-md transition">
-      <Image
-      src={product.image}
-      alt={product.name}
-      width={300}
-      height={200}
-      className="w-full h-40 object-cover mb-2 rounded"
-      />
-      <h3 className="font-semibold text-lg">{product.name}</h3>
-      <p className="text-gray-600">${product.price}</p>
-      <button className="mt-2 px-3 py-1 bg-blue-600 text-white rounded">
-        Add to Cart
+    <div>
+      {/* Link to product detail page using slug or id */}
+      <Link href={`/products/${product.slug || product._id}`}>
+      <h2>{product.name}</h2>
+      <p>Price: {product.price}</p>
+      </Link>
+
+      {/* Add to Cart button */}
+      <button onClick={() => addItem(product)}>
+      Add to Cart
       </button>
     </div>
   );
