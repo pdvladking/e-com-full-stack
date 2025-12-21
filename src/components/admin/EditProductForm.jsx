@@ -36,19 +36,24 @@ export default function EditProductForm({ product, onUpdate, onCancel }) {
 
       <Input
       label="Price"
-      name="number"
-      value={formData.name}
+      type="number"
+      name="price"
+      value={formData.price}
       onChange={handleChange}
       required
       />
 
       <Input
-      label="Name"
-      name="name"
-      value={formData.name}
+      label="Stock"
+      type="number"
+      name="stock"
+      value={formData.stock}
       onChange={handleChange}
       required
       />
+
+      <button type="submit">Save</button>
+      <button type="submit" onClick={onCancel}>Cancel</button>
     </form>
   )
 }
