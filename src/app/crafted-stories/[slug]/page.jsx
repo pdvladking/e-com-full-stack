@@ -1,13 +1,13 @@
+import { stories } from '@/lib/storiesData';
 import Image from 'next/image';
-import { stories } from '../../crafted-stories/storiesData';
 
 export function generateStaticParams() {
-  return Object.keys(stories).map((slug) => ({ slug }));
+  return stories.map((s) => ({ slug: s.slug }));
 }
 
 export default function StoryPage({ params }) {
   const { slug } = params;
-  const story = stories[slug];
+  const story = stories.find((s) => s.slug === slug);
 
   if (!story) {
     return (
