@@ -5,8 +5,9 @@ export function generateStaticParams() {
   return stories.map((s) => ({ slug: s.slug }));
 }
 
-export default function StoryPage({ params }) {
-  const { slug } = params;
+export default async function StoryPage({ params }) {
+  const { slug } = await params;
+
   const story = stories.find((s) => s.slug === slug);
 
   if (!story) {
@@ -29,7 +30,10 @@ export default function StoryPage({ params }) {
           height={500}
           className="w-full h-auto rounded-lg shadow-lg object-cover"
         />
-        <article className="prose prose-lg" dangerouslySetInnerHTML={{ __html: story.content }} />
+        <article
+          className="prose prose-lg"
+          dangerouslySetInnerHTML={{ __html: story.content }}
+        />
       </div>
     </section>
   );

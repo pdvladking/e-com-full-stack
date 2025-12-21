@@ -1,40 +1,20 @@
-'use client';
-import Image from 'next/image';
 import Link from 'next/link';
-import { stories } from '../../lib/storiesData';
+import { stories } from '@/lib/storiesData';
 
-export default function CraftedStories() {
+export default function StoriesPage() {
   return (
-    <section className="bg-neutral-50 py-24 px-6 md:px-16">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-5xl font-serif text-center mb-6">Crafted Stories</h2>
-        <p className="text-center mb-16 text-lg max-w-2xl mx-auto">
-          A curated collection of insights, inspirations, and narratives behind leather
-          craftsmanship.
-        </p>
-
-        <div className="grid md:grid-cols-3 gap-12">
-          {Object.entries(stories).map(([slug, story]) => (
-            <div
-              key={slug}
-              className="space-y-4 hover:translate-y-1 hover:shadow-xl transition-transform duration-300"
-            >
-              <Image
-                src={story.image}
-                alt={story.title}
-                width={400}
-                height={300}
-                className="w-full h-auto rounded-lg shadow-lg object-cover"
-              />
-              <span className="text-sm font-mono uppercase tracking-wide">{story.category}</span>
-              <h3 className="text-xl md:text-2xl font-serif">{story.title}</h3>
-              <p className="text-base">{story.excerpt}</p>
-              <Link href={`/stories/${slug}`} className="text-sm underline hover:opacity-70">
-                Read More
-              </Link>
-            </div>
-          ))}
-        </div>
+    <section className="py-24 px-6 md:px-16">
+      <div className="max-w-4xl mx-auto grid gap-8 md:grid-cols-2">
+        {stories.map((story) => (
+          <Link
+            key={story.slug}
+            href={`/crafted-stories/${story.slug}`} 
+            className="block p-6 bg-white rounded-lg shadow hover:shadow-lg transition"
+          >
+            <h2 className="text-xl font-bold mb-2">{story.title}</h2>
+            <p className="text-gray-600">{story.excerpt}</p>
+          </Link>
+        ))}
       </div>
     </section>
   );
