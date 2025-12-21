@@ -2,13 +2,13 @@
 import ReportsOverview from "@/components/admin/ReportsOverview";
 import RevenueChart from "@/components/admin/RevenueChart";
 import OrdersChart from "@/components/admin/OrdersChart";
-import CartItem from "@/components/cart/CartItem";
+import SalesByProductChart from "@/components/admin/SalesByProductChart";
 
 export default function AdminReports() {
   const mockOrders = [
     {
       _id: "1",
-      CartItems: [
+      cartItems: [
         { name: "Leather Jacket", price: 120, quantity: 1 },
         { name: "Rawhide Belt", price: 40, quantity: 2 },
       ],
@@ -16,7 +16,7 @@ export default function AdminReports() {
     },
     {
       _id: "2",
-      cartItems: [{ name: "Leather Jacket", price: 120, qunatity: 1 }],
+      cartItems: [{ name: "Leather Jacket", price: 120, quantity: 1 }],
       status: "Pending",
     },
   ];
@@ -35,6 +35,8 @@ export default function AdminReports() {
       <RevenueChart data={mockRevenue} />
       <h3>Orders by Status</h3>
       <OrdersChart orders={mockOrders} />
+      <h3>Sales by Product</h3>
+      <SalesByProductChart orders={mockOrders} />
     </div>
   );
 }
