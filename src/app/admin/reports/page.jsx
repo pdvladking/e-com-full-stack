@@ -3,6 +3,7 @@ import ReportsOverview from "@/components/admin/ReportsOverview";
 import RevenueChart from "@/components/admin/RevenueChart";
 import OrdersChart from "@/components/admin/OrdersChart";
 import SalesByProductChart from "@/components/admin/SalesByProductChart";
+import CustomerInsightsChart from "@/components/admin/CustomerInsights";
 
 export default function AdminReports() {
   const mockOrders = [
@@ -37,6 +38,8 @@ export default function AdminReports() {
       <OrdersChart orders={mockOrders} />
       <h3>Sales by Product</h3>
       <SalesByProductChart orders={mockOrders} />
+      <h3>Top Customers</h3>
+      <CustomerInsightsChart orders={mockOrders} />
     </div>
   );
 }
