@@ -1,33 +1,14 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Logo from "./Logo";
 import { FaBars, FaTimes, FaSearch, FaShoppingCart, FaUser } from "react-icons/fa";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState(null);
   const [dropdown, setDropdown] = useState(false);
-
-  useEffect(() => {
-    const token = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("token="));
-    if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split(".")[1]));
-        setUser({ role: payload.role, email: payload.email });
-      } catch {
-        setUser(null);
-      }
-    }
-  }, []);
-
-  const handleLogout = async () => {
-    await fetch("/api/logout", { method: "POST" });
-    setUser(null);
-    window.location.href = "/login";
-  };
+  const { user, logout } = useAuth(); 
 
   const links = [
     { href: "/shop", label: "Shop" },
@@ -77,13 +58,13 @@ export default function Navbar() {
                   <>
                     <Link href="/user/profile" className="px-4 py-2 hover:bg-neutral-100">Profile</Link>
                     <Link href="/user/orders" className="px-4 py-2 hover:bg-neutral-100">Orders</Link>
-                    <button onClick={handleLogout} className="px-4 py-2 text-left hover:bg-neutral-100">Logout</button>
+                    <button onClick={logout} className="px-4 py-2 text-left hover:bg-neutral-100">Logout</button>
                   </>
                 )}
                 {user?.role === "admin" && (
                   <>
                     <Link href="/admin/products" className="px-4 py-2 hover:bg-neutral-100">Dashboard</Link>
-                    <button onClick={handleLogout} className="px-4 py-2 text-left hover:bg-neutral-100">Logout</button>
+                    <button onClick={logout} className="px-4 py-2 text-left hover:bg-neutral-100">Logout</button>
                   </>
                 )}
               </div>
@@ -131,13 +112,13 @@ export default function Navbar() {
             <>
               <Link href="/user/profile" onClick={handleLinkClick} className="hover:text-neutral-900 transition">Profile</Link>
               <Link href="/user/orders" onClick={handleLinkClick} className="hover:text-neutral-900 transition">Orders</Link>
-              <button onClick={handleLogout} className="hover:text-neutral-900 transition">Logout</button>
+              <button onClick={logout} className="hover:text-neutral-900 transition">Logout</button>
             </>
           )}
           {user?.role === "admin" && (
             <>
               <Link href="/admin/products" onClick={handleLinkClick} className="hover:text-neutral-900 transition">Dashboard</Link>
-              <button onClick={handleLogout} className="hover:text-neutral-900 transition">Logout</button>
+              <button onClick={logout} className="hover:text-neutral-900 transition">Logout</button>
             </>
           )}
         </div>

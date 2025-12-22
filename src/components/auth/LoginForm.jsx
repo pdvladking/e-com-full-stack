@@ -1,7 +1,11 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 export default function LoginForm() {
+  const { login } = useAuth();
+  const router = useRouter();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
 
@@ -13,36 +17,47 @@ export default function LoginForm() {
     e.preventDefault();
     setError("");
 
-    const res = await fetch("/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+    const result = await login(formData.email, formData.password);
 
-    const data = await res.json();
-
-    if (!res.ok) {
-      setError(data.error || "Login failed");
+    if (result.success) {
+      router.push(result.user?.role === "admin" ? "/admin/products" : "/user/products");
     } else {
-      window.location.href = data.user.role === "admin" ? "/admin/products" : "/user/products";
+      setError(result.error || "Login failed");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h3>Login</h3>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-sm mx-auto">
+      <h3 className="text-lg font-semibold">Login</h3>
       {error && <p className="text-red-500">{error}</p>}
-      <label>
+
+      <label className="flex flex-col">
         Email:
-        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+          className="border px-3 py-2 rounded"
+        />
       </label>
-      <br />
-      <label>
+
+      <label className="flex flex-col">
         Password:
-        <input type="password" name="password" value={formData.password} onChange={handleChange} required />
+        <input
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+          className="border px-3 py-2 rounded"
+        />
       </label>
-      <br />
-      <button type="submit">Login</button>
+
+      <button type="submit" className="bg-neutral-700 text-white px-4 py-2 rounded">
+        Login
+      </button>
     </form>
   );
 }
