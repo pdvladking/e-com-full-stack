@@ -20,17 +20,17 @@ export default function AdminUsers() {
 };
 
 const handleDeleteUser = (id) => {
-  setUsers(users.filter((u) => u._id !=== id));
+  setUsers(users.filter((u) => u._id !== id));
 };
 
 return (
   <div>
     <h2>User Management</h2>
     <UsersTable
-    users={users}
-    onBlock={handleBlockUser}
-    onDelete={handleBlockUser}
-    />
+  users={users}
+  onBlock={handleBlockUser}
+  onDelete={handleDeleteUser}
+/>
   </div>
 );
 }

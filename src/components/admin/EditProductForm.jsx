@@ -10,50 +10,33 @@ export default function EditProductForm({ product, onUpdate, onCancel }) {
   });
 
   const handleChange = (e) => {
-    e.preventDefault();
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-    const updateProduct = {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const updatedProduct = {
       ...product,
       name: formData.name,
       price: parseFloat(formData.price),
       stock: parseInt(formData.stock, 10),
     };
-
-    onUpdate(updateProduct);
+    onUpdate(updatedProduct);
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <h3>Edit Product</h3>
 
-      <Input
-      label="Name"
-      name="name"
-      value={formData.name}
-      onChange={handleChange}
-      required
-      />
-
-      <Input
-      label="Price"
-      type="number"
-      name="price"
-      value={formData.price}
-      onChange={handleChange}
-      required
-      />
-
-      <Input
-      label="Stock"
-      type="number"
-      name="stock"
-      value={formData.stock}
-      onChange={handleChange}
-      required
-      />
+      <Input label="Name" name="name" value={formData.name} onChange={handleChange} required />
+      <Input label="Price" type="number" name="price" value={formData.price} onChange={handleChange} required />
+      <Input label="Stock" type="number" name="stock" value={formData.stock} onChange={handleChange} required />
 
       <button type="submit">Save</button>
-      <button type="submit" onClick={onCancel}>Cancel</button>
+      <button type="button" onClick={onCancel}>Cancel</button>
     </form>
-  )
+  );
 }
