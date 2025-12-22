@@ -2,6 +2,7 @@ import '@/app/styles/globals.css'
 import FooterSection from '@/components/ui/Footer';
 import Navbar from '@/components/ui/Navbar';
 import { CartProvider } from '@/context/CartContext';
+import { AuthProvider } from '@/context/AuthContext';
 
 export const metadata = {
   title: 'My Next.js App',
@@ -12,11 +13,13 @@ export default function RootLayout ({ children }) {
   return (
     <html lang='en'>
       <body>
+        <AuthProvider>
         <Navbar />
         <CartProvider>
         {children}
         </CartProvider>
         <FooterSection />
+        </AuthProvider>
       </body>
     </html>
   );
