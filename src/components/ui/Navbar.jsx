@@ -1,11 +1,33 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Logo from "./Logo";
 import { FaBars, FaTimes, FaSearch, FaShoppingCart, FaUser } from "react-icons/fa";
 import Link from "next/link";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [dropdown, setDropdown] = useState(false);
+
+  useEffect(() => {
+    const token = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("token="));
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        setUser({ role: payload.role, email: payload.email });
+      } catch {
+        setUser(null);
+      }
+    }
+  }, []);
+
+  const handleLogout = async () => {
+    await fetch("/api/logout", { method: "POST" });
+    setUser(null);
+    window.location.href = "/login";
+  };
 
   const links = [
     { href: "/shop", label: "Shop" },
@@ -19,36 +41,54 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full bg-neutral-50 text-neutral-700 shadow-md">
       <div className="max-w-[1200px] mx-auto flex flex-row items-center justify-between px-6 py-4">
-
+        
         {/* Logo */}
         <Logo size={48} />
 
         {/* Desktop navlinks */}
         <div className="hidden md:flex justify-center gap-6">
           {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="hover:text-neutral-900 transition"
-            >
+            <Link key={link.href} href={link.href} className="hover:text-neutral-900 transition">
               {link.label}
             </Link>
           ))}
         </div>
 
         {/* Right side icons */}
-        <div className="flex gap-6 items-center">
-          <FaSearch
-            aria-label="Search"
-            className="text-xl cursor-pointer hover:text-neutral-900 transition"
-          />
-          <FaShoppingCart
-            aria-label="Shopping cart"
-            className="text-xl cursor-pointer hover:text-neutral-900 transition"
-          />
-          <Link href="/login" aria-label="Login">
-            <FaUser className="text-xl cursor-pointer hover:text-neutral-900 transition" />
-          </Link>
+        <div className="flex gap-6 items-center relative">
+          <FaSearch className="text-xl cursor-pointer hover:text-neutral-900 transition" />
+          <FaShoppingCart className="text-xl cursor-pointer hover:text-neutral-900 transition" />
+
+          {/* Auth via FaUser icon */}
+          <div className="relative">
+            <FaUser
+              className="text-xl cursor-pointer hover:text-neutral-900 transition"
+              onClick={() => setDropdown(!dropdown)}
+            />
+            {dropdown && (
+              <div className="absolute right-0 mt-2 w-40 bg-white shadow-md rounded-md flex flex-col">
+                {!user && (
+                  <>
+                    <Link href="/login" className="px-4 py-2 hover:bg-neutral-100">Login</Link>
+                    <Link href="/register" className="px-4 py-2 hover:bg-neutral-100">Register</Link>
+                  </>
+                )}
+                {user?.role === "user" && (
+                  <>
+                    <Link href="/user/profile" className="px-4 py-2 hover:bg-neutral-100">Profile</Link>
+                    <Link href="/user/orders" className="px-4 py-2 hover:bg-neutral-100">Orders</Link>
+                    <button onClick={handleLogout} className="px-4 py-2 text-left hover:bg-neutral-100">Logout</button>
+                  </>
+                )}
+                {user?.role === "admin" && (
+                  <>
+                    <Link href="/admin/products" className="px-4 py-2 hover:bg-neutral-100">Dashboard</Link>
+                    <button onClick={handleLogout} className="px-4 py-2 text-left hover:bg-neutral-100">Logout</button>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
 
           {/* Burger / X button (mobile only) */}
           <button
@@ -78,6 +118,29 @@ export default function Navbar() {
             {link.label}
           </Link>
         ))}
+
+        {/* Auth dropdown for mobile */}
+        <div className="flex flex-col items-center gap-2 mt-2">
+          {!user && (
+            <>
+              <Link href="/login" onClick={handleLinkClick} className="hover:text-neutral-900 transition">Login</Link>
+              <Link href="/register" onClick={handleLinkClick} className="hover:text-neutral-900 transition">Register</Link>
+            </>
+          )}
+          {user?.role === "user" && (
+            <>
+              <Link href="/user/profile" onClick={handleLinkClick} className="hover:text-neutral-900 transition">Profile</Link>
+              <Link href="/user/orders" onClick={handleLinkClick} className="hover:text-neutral-900 transition">Orders</Link>
+              <button onClick={handleLogout} className="hover:text-neutral-900 transition">Logout</button>
+            </>
+          )}
+          {user?.role === "admin" && (
+            <>
+              <Link href="/admin/products" onClick={handleLinkClick} className="hover:text-neutral-900 transition">Dashboard</Link>
+              <button onClick={handleLogout} className="hover:text-neutral-900 transition">Logout</button>
+            </>
+          )}
+        </div>
       </div>
     </nav>
   );
