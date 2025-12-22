@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import clientPromise from "@/lib/mongodb";
+import clientPromise from '@/lib/db';
+import { NextResponse } from 'next/server';
 
 export async function POST(req) {
   try {
@@ -7,8 +7,8 @@ export async function POST(req) {
     const { cartItems, customer } = body;
 
     const client = await clientPromise;
-    const db = client.db("rawhide_store"); 
-    const orders = db.collection("orders");
+    const db = client.db('rawhide_store');
+    const orders = db.collection('orders');
 
     const result = await orders.insertOne({
       cartItems,
@@ -17,14 +17,11 @@ export async function POST(req) {
     });
 
     return NextResponse.json(
-      { message: "Order saved successfully", orderId: result.insertedId },
+      { message: 'Order saved successfully', orderId: result.insertedId },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Checkout error:", error);
-    return NextResponse.json(
-      { message: "Error saving order" },
-      { status: 500 }
-    );
+    console.error('Checkout error:', error);
+    return NextResponse.json({ message: 'Error saving order' }, { status: 500 });
   }
 }
