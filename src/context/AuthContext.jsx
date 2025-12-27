@@ -38,7 +38,7 @@ export function AuthProvider({ children }) {
 
     if (res.ok) {
       setUser(data.user);
-      return { success: true };
+      return { success: true, user: data.user }; 
     }
     return { success: false, error: data.error || "Login failed" };
   };
@@ -53,7 +53,7 @@ export function AuthProvider({ children }) {
 
     if (res.ok) {
       setUser(data.user || { email, role: "user" });
-      return { success: true };
+      return { success: true, user: data.user || { email, role: "user" } };
     }
     return { success: false, error: data.error || "Registration failed" };
   };
@@ -61,7 +61,7 @@ export function AuthProvider({ children }) {
   const logout = async () => {
     await fetch("/api/logout", { method: "POST" });
     setUser(null);
-    router.push("/login"); 
+    router.push("/login");
   };
 
   return (
