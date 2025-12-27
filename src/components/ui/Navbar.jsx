@@ -1,14 +1,15 @@
 "use client";
 import { useState } from "react";
 import Logo from "./Logo";
-import { FaBars, FaTimes, FaSearch, FaShoppingCart, FaUser } from "react-icons/fa";
+import { FaBars, FaTimes, FaSearch, FaUser } from "react-icons/fa";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
+import CartBadge from "@/components/cart/CartBadge"; 
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [dropdown, setDropdown] = useState(false);
-  const { user, logout } = useAuth(); 
+  const { user, logout } = useAuth();
 
   const links = [
     { href: "/shop", label: "Shop" },
@@ -38,7 +39,9 @@ export default function Navbar() {
         {/* Right side icons */}
         <div className="flex gap-6 items-center relative">
           <FaSearch className="text-xl cursor-pointer hover:text-neutral-900 transition" />
-          <FaShoppingCart className="text-xl cursor-pointer hover:text-neutral-900 transition" />
+          
+          {/* CartBadge  */}
+          <CartBadge />
 
           {/* Auth via FaUser icon */}
           <div className="relative">

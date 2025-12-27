@@ -14,12 +14,12 @@ export default function RootLayout ({ children }) {
     <html lang='en'>
       <body>
         <AuthProvider>
-        <Navbar />
-        <CartProvider>
-        {children}
-        </CartProvider>
-        <FooterSection />
-        </AuthProvider>
+  <CartProvider>
+    <Navbar />
+    {children}
+    <FooterSection />
+  </CartProvider>
+</AuthProvider>
       </body>
     </html>
   );
