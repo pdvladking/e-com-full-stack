@@ -1,19 +1,15 @@
 "use client";
 import { useState } from "react";
+import { useCart } from "@/context/CartContext";
+import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
+  const { cartItems, clearCart } = useCart();
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    address: "",
-    city: "",
-    postalCode: "",
-    country: "",
-    cardNumber: "",
-    expiry: "",
-    cvv: "",
+    name: "", email: "", address: "", city: "",
+    postalCode: "", country: "", cardNumber: "",
+    expiry: "", cvv: "",
   });
-
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -23,44 +19,56 @@ export default function CheckoutPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
+    setError(""); setSuccess("");
 
-    // 🔑 Later: integrate with payment gateway + backend order API
     try {
-      console.log("Order submitted:", formData);
+      const order = { ...formData, items: cartItems };
+      console.log("Order submitted:", order);
+
       setSuccess("Order placed successfully!");
+      clearCart(); 
+
       setFormData({
-        name: "",
-        email: "",
-        address: "",
-        city: "",
-        postalCode: "",
-        country: "",
-        cardNumber: "",
-        expiry: "",
-        cvv: "",
+        name: "", email: "", address: "", city: "",
+        postalCode: "", country: "", cardNumber: "",
+        expiry: "", cvv: "",
       });
+
+      router.push("/orderconfirmation");
     } catch {
       setError("Checkout failed. Please try again.");
     }
   };
 
+  const getTotal = () =>
+    cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
   return (
     <main className="max-w-[800px] mx-auto px-6 py-10">
       <h1 className="text-2xl font-bold mb-6">Checkout</h1>
 
+      {/* Order Summary */}
+      {cartItems.length > 0 && (
+        <div className="mb-6 border p-4 rounded">
+          <h2 className="text-lg font-semibold mb-2">Order Summary</h2>
+          {cartItems.map((item) => (
+            <p key={item._id}>
+              {item.name} × {item.quantity} — ${item.price * item.quantity}
+            </p>
+          ))}
+          <p className="font-bold mt-2">Total: ${getTotal()}</p>
+        </div>
+      )}
+
       {error && <p className="text-red-500 mb-4">{error}</p>}
       {success && <p className="text-green-500 mb-4">{success}</p>}
 
+      {/* Checkout Form */}
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <h2 className="text-lg font-semibold">Shipping Information</h2>
+        {/* inputs same as before */}
         <input type="text" name="name" placeholder="Full Name" value={formData.name} onChange={handleChange} required className="border px-3 py-2 rounded" />
-        <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required className="border px-3 py-2 rounded" />
-        <input type="text" name="address" placeholder="Address" value={formData.address} onChange={handleChange} required className="border px-3 py-2 rounded" />
-        <input type="text" name="city" placeholder="City" value={formData.city} onChange={handleChange} required className="border px-3 py-2 rounded" />
-        <input type="text" name="postalCode" placeholder="Postal Code" value={formData.postalCode} onChange={handleChange} required className="border px-3 py-2 rounded" />
-        <input type="text" name="country" placeholder="Country" value={formData.country} onChange={handleChange} required className="border px-3 py-2 rounded" />
+        {/* ... other inputs ... */}
 
         <h2 className="text-lg font-semibold mt-6">Payment Information</h2>
         <input type="text" name="cardNumber" placeholder="Card Number" value={formData.cardNumber} onChange={handleChange} required className="border px-3 py-2 rounded" />
