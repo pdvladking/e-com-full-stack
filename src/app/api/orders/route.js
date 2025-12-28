@@ -1,12 +1,13 @@
 import { verifyToken } from "@/lib/auth";
+import Order from "@/models/Order";
 
 export async function GET(req) {
   try {
     const decoded = verifyToken(req);
-    return new Response(JSON.stringify ({
-      message: "Protected data",
-      user: decoded
-    }), {
+
+    const orders = await Order.find({ user: decoded.id }).lean();
+
+    return new Response(JSON.stringify(orders), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
