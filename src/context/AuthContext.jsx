@@ -2,15 +2,17 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
+import { loginService, registerService, logoutService } from "../services/authService";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [authError, setAuthError] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const checkAuth = () => {
       const token = document.cookie
         .split("; ")
         .find((row) => row.startsWith("token="));
@@ -24,48 +26,41 @@ export function AuthProvider({ children }) {
         }
       }
     };
-
     checkAuth();
   }, []);
 
   const login = async (email, password) => {
-    const res = await fetch("/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await res.json();
-
-    if (res.ok) {
-      setUser(data.user);
-      return { success: true, user: data.user }; 
+    const { success, user, error } = await loginService(email, password);
+    if (success) {
+      setUser(user);
+      setAuthError(null);
+      return { success, user };
     }
-    return { success: false, error: data.error || "Login failed" };
+    setAuthError(error);
+    return { success, error };
   };
 
   const register = async (name, email, password) => {
-    const res = await fetch("/api/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
-    });
-    const data = await res.json();
-
-    if (res.ok) {
-      setUser(data.user || { email, role: "user" });
-      return { success: true, user: data.user || { email, role: "user" } };
+    const { success, user, error } = await registerService(name, email, password);
+    if (success) {
+      setUser(user);
+      setAuthError(null);
+      return { success, user };
     }
-    return { success: false, error: data.error || "Registration failed" };
+    setAuthError(error);
+    return { success, error };
   };
 
   const logout = async () => {
-    await fetch("/api/logout", { method: "POST" });
+    await logoutService();
     setUser(null);
     router.push("/login");
   };
 
+  const isAuthenticated = !!user;
+
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, login, register, logout, authError }}>
       {children}
     </AuthContext.Provider>
   );

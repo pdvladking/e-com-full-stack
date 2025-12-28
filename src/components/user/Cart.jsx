@@ -1,5 +1,5 @@
 "use client";
-import CartItem from "../cart/CartItem";
+import CartItem from "../shared/CartItem";
 
 export default function Cart({ items, onRemove, onUpdateQuantity }) {
   if (items.length === 0) {

@@ -1,12 +1,12 @@
-"use client";
-import { useState } from "react";
-import Input from "../ui/Input";
+'use client';
+import { useState } from 'react';
+import Input from '../shared/Input';
 
 export default function AddProductForm({ onAdd }) {
   const [formData, setFormData] = useState({
-    name: "",
-    price: "",
-    stock: "",
+    name: '',
+    price: '',
+    stock: '',
   });
 
   const handleChange = (e) => {
@@ -23,42 +23,24 @@ export default function AddProductForm({ onAdd }) {
       _id: Date.now().toString(),
       name: formData.name,
       price: parseFloat(formData.price),
-      stock:parseInt(formData.stock, 10),
+      stock: parseInt(formData.stock, 10),
     };
 
     onAdd(newProduct);
-    setFormData({ name: "", price: "", stock: "" });
+    setFormData({ name: '', price: '', stock: '' });
   };
-  
+
   return (
     <form onSubmit={handleSubmit}>
       <h3>Add New Product</h3>
 
-      <Input
-      label="Name"
-      name="name"
-      value={formData.name}
-      onChange={handleChange}
-      required
-      />
+      <Input label="Name" name="name" value={formData.name} onChange={handleChange} required />
 
-      <Input
-      label="Name"
-      name="name"
-      value={formData.name}
-      onChange={handleChange}
-      required
-      />
+      <Input label="Name" name="name" value={formData.name} onChange={handleChange} required />
 
-      <Input
-      label="Name"
-      name="name"
-      value={formData.name}
-      onChange={handleChange}
-      required
-      />
+      <Input label="Name" name="name" value={formData.name} onChange={handleChange} required />
 
-      <button type="submit">Add Product</button>  
+      <button type="submit">Add Product</button>
     </form>
-  )
+  );
 }

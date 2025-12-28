@@ -1,13 +1,13 @@
-"use client";
-import { useState } from "react";
-import Input from "@/components/ui/Input";
-import ButtonLink from "@/components/ui/ButtonLink";
+'use client';
+import Input from '@/components/shared/Input';
+import ButtonLink from '@/components/ui/ButtonLink';
+import { useState } from 'react';
 
 export default function ContactPage() {
   const [form, setForm] = useState({
-    name: "",
-    email: "",
-    message: "",
+    name: '',
+    email: '',
+    message: '',
   });
 
   return (

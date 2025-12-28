@@ -1,6 +1,6 @@
-"use client";
-import { useState } from "react";
-import Input from "@/components/ui/Input";
+'use client';
+import Input from '@/components/shared/Input';
+import { useState } from 'react';
 
 export default function SettingsForm({ initialSettings, onSave }) {
   const [formData, setFormData] = useState(initialSettings);

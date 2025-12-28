@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Input from "../ui/Input";
-import Button from "../ui/Button";
-import { useAuth } from "./AuthProvider";
+import { useState } from 'react';
+import Input from '../shared/Input';
+import Button from '../ui/Button';
+import { useAuth } from './AuthProvider';
 
 export default function SignupForm() {
   const { signup } = useAuth();
 
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
 
   const [errors, setErrors] = useState({});
@@ -28,13 +28,13 @@ export default function SignupForm() {
     e.preventDefault();
     const newErrors = {};
 
-    if (!formData.name.trim()) newErrors.name = "Name is required";
-    if (!formData.email.trim()) newErrors.email = "Email is required";
-    if (!formData.password) newErrors.password = "Password is required";
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    if (!formData.password) newErrors.password = 'Password is required';
     else if (formData.password.length < 6)
-      newErrors.password = "Password must be at least 6 characters";
+      newErrors.password = 'Password must be at least 6 characters';
     if (formData.password !== formData.confirmPassword)
-      newErrors.confirmPassword = "Passwords do not match";
+      newErrors.confirmPassword = 'Passwords do not match';
 
     setErrors(newErrors);
 
@@ -55,7 +55,7 @@ export default function SignupForm() {
         placeholder="Name"
         value={formData.name}
         onChange={handleChange}
-        variant={errors.name ? "error" : "default"}
+        variant={errors.name ? 'error' : 'default'}
         errorMessage={errors.name}
         fullWidth
       />
@@ -65,7 +65,7 @@ export default function SignupForm() {
         placeholder="Email"
         value={formData.email}
         onChange={handleChange}
-        variant={errors.email ? "error" : "default"}
+        variant={errors.email ? 'error' : 'default'}
         errorMessage={errors.email}
         fullWidth
       />
@@ -75,7 +75,7 @@ export default function SignupForm() {
         placeholder="Password"
         value={formData.password}
         onChange={handleChange}
-        variant={errors.password ? "error" : "default"}
+        variant={errors.password ? 'error' : 'default'}
         errorMessage={errors.password}
         fullWidth
       />
@@ -85,7 +85,7 @@ export default function SignupForm() {
         placeholder="Confirm Password"
         value={formData.confirmPassword}
         onChange={handleChange}
-        variant={errors.confirmPassword ? "error" : "default"}
+        variant={errors.confirmPassword ? 'error' : 'default'}
         errorMessage={errors.confirmPassword}
         fullWidth
       />

@@ -5,8 +5,15 @@ import { verifyToken } from "@/lib/auth";
 export async function PUT(req, { params }) {
   console.log("[API] PUT /products/:id hit");
   try {
-    const user = verifyToken(req);
-    if (user.role !== "admin") {
+    const authHeader = req.headers.get("authorization");
+    if (!authHeader) {
+      return NextResponse.json({ error: "No authorization header" }, { status: 401 });
+    }
+
+    const token = authHeader.split(" ")[1];
+    const user = verifyToken(token);
+
+    if (!user || user.role !== "admin") {
       return NextResponse.json({ error: "Access denied" }, { status: 403 });
     }
 
@@ -26,8 +33,15 @@ export async function PUT(req, { params }) {
 export async function DELETE(req, { params }) {
   console.log("[API] DELETE /products/:id hit");
   try {
-    const user = verifyToken(req);
-    if (user.role !== "admin") {
+    const authHeader = req.headers.get("authorization");
+    if (!authHeader) {
+      return NextResponse.json({ error: "No authorization header" }, { status: 401 });
+    }
+
+    const token = authHeader.split(" ")[1];
+    const user = verifyToken(token);
+
+    if (!user || user.role !== "admin") {
       return NextResponse.json({ error: "Access denied" }, { status: 403 });
     }
 

@@ -1,5 +1,5 @@
 "use client";
-import CheckoutForm from "@/components/ui/CheckoutForm";
+import CheckoutForm from "@/components/shared/CheckoutForm";
 
 export default function UserCheckoutPage() {
   const handlePlaceOrder = (orderData) => {

@@ -8,15 +8,23 @@ export function CartProvider({ children }) {
 
   // Load cart from localStorage on mount
   useEffect(() => {
-    const storedCart = localStorage.getItem("cartItems");
-    if (storedCart) {
-      setCartItems(JSON.parse(storedCart));
+    try {
+      const storedCart = localStorage.getItem("cartItems");
+      if (storedCart) {
+        setCartItems(JSON.parse(storedCart));
+      }
+    } catch {
+      console.error("Failed to load cart from localStorage");
     }
   }, []);
 
   // Save cart to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    try {
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    } catch {
+      console.error("Failed to save cart to localStorage");
+    }
   }, [cartItems]);
 
   // Add item
@@ -48,15 +56,31 @@ export function CartProvider({ children }) {
     );
   };
 
-  // Clear cart (also clears localStorage)
+  // Clear cart
   const clearCart = () => {
     setCartItems([]);
     localStorage.removeItem("cartItems");
   };
 
+  // Get total price
+  const getCartTotal = () =>
+    cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  // Get total item count
+  const getItemCount = () =>
+    cartItems.reduce((count, item) => count + item.quantity, 0);
+
   return (
     <CartContext.Provider
-      value={{ cartItems, addItem, removeItem, updateQuantity, clearCart }}
+      value={{
+        cartItems,
+        addItem,
+        removeItem,
+        updateQuantity,
+        clearCart,
+        getCartTotal,
+        getItemCount,
+      }}
     >
       {children}
     </CartContext.Provider>
@@ -64,5 +88,9 @@ export function CartProvider({ children }) {
 }
 
 export function useCart() {
-  return useContext(CartContext);
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error("useCart must be used within a CartProvider");
+  }
+  return context;
 }
