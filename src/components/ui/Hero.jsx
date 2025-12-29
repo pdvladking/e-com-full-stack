@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import Button from "./Button";
 import ButtonLink from "./ButtonLink";
 
 export default function Hero() {
@@ -29,8 +28,8 @@ export default function Hero() {
           Hand-stitched leather goods that age with grace. Built to last. <br /> Styled to lead.
         </p>
         <div className="flex flex-row gap-4">
-          <Button variant="primary">Shop Collection</Button>
-          <ButtonLink href="/products" variant="secondary">
+          <ButtonLink href="/shop" variant="primary">Shop Collection</ButtonLink>
+          <ButtonLink href="/about-us" variant="secondary">
           Our Story
           </ButtonLink>
         </div>

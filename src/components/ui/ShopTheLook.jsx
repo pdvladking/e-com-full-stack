@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import ButtonLink from "./ButtonLink";
+import ProductLinkCard from "../shared/ProductLinkCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -11,7 +11,8 @@ const looks = [
     id: 1,
     image: "/images/look-4.webp",
     title: "Casual Streetwear",
-    description: "From morning walks to gallery dates, this look is built for quiet confidence and everyday luxury.",
+    description:
+      "From morning walks to gallery dates, this look is built for quiet confidence and everyday luxury.",
     products: [
       { name: "The Soft Wool Coat", href: "/products/soft-wool-coat" },
       { name: "Minimal Leather Crossbody", href: "/products/leather-crossbody" },
@@ -22,7 +23,8 @@ const looks = [
     id: 2,
     image: "/images/look-2.webp",
     title: "Elegant Evening",
-    description: "Perfect for dinners and events, this look blends elegance with comfort.",
+    description:
+      "Perfect for dinners and events, this look blends elegance with comfort.",
     products: [
       { name: "Silk Evening Dress", href: "/products/silk-evening-dress" },
       { name: "Crystal Clutch", href: "/products/crystal-clutch" },
@@ -32,12 +34,13 @@ const looks = [
   {
     id: 3,
     image: "/images/look-3.webp",
-    title: "Elegant Evening",
-    description: "Perfect for dinners and events, this look blends elegance with comfort.",
+    title: "Weekend Explorer",
+    description:
+      "Built for adventure and comfort, this look is perfect for city strolls and casual outings.",
     products: [
-      { name: "Silk Evening Dress", href: "/products/silk-evening-dress" },
-      { name: "Crystal Clutch", href: "/products/crystal-clutch" },
-      { name: "Classic Heels", href: "/products/classic-heels" },
+      { name: "Utility Jacket", href: "/products/utility-jacket" },
+      { name: "Canvas Backpack", href: "/products/canvas-backpack" },
+      { name: "Trail Sneakers", href: "/products/trail-sneakers" },
     ],
   },
 ];
@@ -46,9 +49,7 @@ export default function ShopTheLook() {
   return (
     <section className="py-24 px-6 md:px-16">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-12">
-          Shop the Look
-        </h2>
+        <h2 className="text-4xl font-bold text-center mb-12">Shop the Look</h2>
 
         <Swiper
           modules={[Autoplay, Pagination]}
@@ -73,22 +74,16 @@ export default function ShopTheLook() {
                 </div>
 
                 {/* Right: Text + Products */}
-                <div className="bg-neutral-50">
-                  <h3 className="text-2xl font-serif mb-6">
-                    {look.title}
-                  </h3>
+                <div className="bg-neutral-50 p-8 rounded-lg shadow-sm">
+                  <h3 className="text-2xl font-serif mb-6">{look.title}</h3>
                   <p className="mb-8 text-lg">{look.description}</p>
                   <ul className="space-y-6">
                     {look.products.map((product, i) => (
-                      <li key={i} className="flex items-center justify-between">
-                        <span>{product.name}</span>
-                        <ButtonLink
-                          href={product.href}
-                          className="text-sm underline hover:opacity-70"
-                        >
-                          View
-                        </ButtonLink>
-                      </li>
+                      <ProductLinkCard
+                        key={i}
+                        name={product.name}
+                        href={product.href}
+                      />
                     ))}
                   </ul>
                 </div>
