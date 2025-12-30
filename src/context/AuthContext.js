@@ -1,7 +1,6 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { jwtDecode } from "jwt-decode";
 import { loginService, registerService, logoutService } from "../services/authService";
 
 const AuthContext = createContext();
@@ -11,24 +10,40 @@ export function AuthProvider({ children }) {
   const [authError, setAuthError] = useState(null);
   const router = useRouter();
 
+  // --- VERIFY TOKEN ON PAGE LOAD ---
   useEffect(() => {
-    const checkAuth = () => {
-      const token = document.cookie
+    const checkAuth = async () => {
+      const tokenCookie = document.cookie
         .split("; ")
         .find((row) => row.startsWith("token="));
 
-      if (token) {
+      if (tokenCookie) {
+        const token = tokenCookie.split("=")[1];
+
         try {
-          const payload = jwtDecode(token.split("=")[1]);
-          setUser({ role: payload.role, email: payload.email });
+          const res = await fetch("/api/auth/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token }),
+          });
+
+          const data = await res.json();
+
+          if (data.success) {
+            setUser({ ...data.data });
+          } else {
+            setUser(null);
+          }
         } catch {
           setUser(null);
         }
       }
     };
+
     checkAuth();
   }, []);
 
+  // --- LOGIN ---
   const login = async (email, password) => {
     const { success, user, error } = await loginService(email, password);
     if (success) {
@@ -40,6 +55,7 @@ export function AuthProvider({ children }) {
     return { success, error };
   };
 
+  // --- REGISTER ---
   const register = async (name, email, password) => {
     const { success, user, error } = await registerService(name, email, password);
     if (success) {
@@ -51,6 +67,7 @@ export function AuthProvider({ children }) {
     return { success, error };
   };
 
+  // --- LOGOUT ---
   const logout = async () => {
     await logoutService();
     setUser(null);
@@ -60,7 +77,9 @@ export function AuthProvider({ children }) {
   const isAuthenticated = !!user;
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, register, logout, authError }}>
+    <AuthContext.Provider
+      value={{ user, isAuthenticated, login, register, logout, authError }}
+    >
       {children}
     </AuthContext.Provider>
   );

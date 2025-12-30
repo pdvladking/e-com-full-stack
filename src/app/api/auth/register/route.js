@@ -1,11 +1,9 @@
-import { signup } from "@/controllers/authController";
+import { register } from "@/controllers/authController";
 
 export async function POST(req) {
   try {
     const body = await req.json();
-    console.log("[Signup] Body received:", body);
-
-    const { safeUser, token } = await signup(body);
+    const { safeUser, token } = await register(body);
 
     return new Response(
       JSON.stringify({
@@ -18,8 +16,6 @@ export async function POST(req) {
       }
     );
   } catch (error) {
-    console.error("[Signup] Error:", error.message);
-
     return new Response(
       JSON.stringify({
         success: false,

@@ -1,80 +1,97 @@
-"use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
+'use client';
 
-export default function RegisterForm() {
-  const { register } = useAuth(); 
-  const router = useRouter();
-  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+import { useState } from 'react';
+import Input from '../shared/Input';
+import Button from '../ui/Button';
+import { useAuth } from './AuthProvider';
+
+export default function SignupForm() {
+  const { signup } = useAuth();
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
+    const newErrors = {};
 
-    const result = await register(formData.name, formData.email, formData.password);
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    if (!formData.password) newErrors.password = 'Password is required';
+    else if (formData.password.length < 6)
+      newErrors.password = 'Password must be at least 6 characters';
+    if (formData.password !== formData.confirmPassword)
+      newErrors.confirmPassword = 'Passwords do not match';
 
-    if (result.success) {
-      setSuccess("Registration successful! Redirecting...");
-      setFormData({ name: "", email: "", password: "" });
-      router.push("/login");
-    } else {
-      setError(result.error || "Registration failed");
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      await signup({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-sm mx-auto">
-      <h3 className="text-lg font-semibold">Register</h3>
-      {error && <p className="text-red-500">{error}</p>}
-      {success && <p className="text-green-500">{success}</p>}
-
-      <label className="flex flex-col">
-        Name:
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          className="border px-3 py-2 rounded"
-        />
-      </label>
-
-      <label className="flex flex-col">
-        Email:
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          className="border px-3 py-2 rounded"
-        />
-      </label>
-
-      <label className="flex flex-col">
-        Password:
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-          className="border px-3 py-2 rounded"
-        />
-      </label>
-
-      <button type="submit" className="bg-neutral-700 text-white px-4 py-2 rounded">
-        Register
-      </button>
+    <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
+      <Input
+        type="text"
+        name="name"
+        placeholder="Name"
+        value={formData.name}
+        onChange={handleChange}
+        variant={errors.name ? 'error' : 'default'}
+        errorMessage={errors.name}
+        fullWidth
+      />
+      <Input
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={formData.email}
+        onChange={handleChange}
+        variant={errors.email ? 'error' : 'default'}
+        errorMessage={errors.email}
+        fullWidth
+      />
+      <Input
+        type="password"
+        name="password"
+        placeholder="Password"
+        value={formData.password}
+        onChange={handleChange}
+        variant={errors.password ? 'error' : 'default'}
+        errorMessage={errors.password}
+        fullWidth
+      />
+      <Input
+        type="password"
+        name="confirmPassword"
+        placeholder="Confirm Password"
+        value={formData.confirmPassword}
+        onChange={handleChange}
+        variant={errors.confirmPassword ? 'error' : 'default'}
+        errorMessage={errors.confirmPassword}
+        fullWidth
+      />
+      <Button type="submit" variant="primary" fullWidth>
+        Sign Up
+      </Button>
     </form>
   );
 }

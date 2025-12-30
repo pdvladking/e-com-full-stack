@@ -2,7 +2,7 @@
 
 import { useAuth } from "@/components/auth/AuthProvider";
 import Button from "@/components/ui/Button";
-import SignupForm from "@/components/auth/SignupForm";
+import SignupForm from "@/components/auth/RegisterForm";
 import LoginForm from "@/components/auth/LoginForm";
 
 export default function DashboardPage() {

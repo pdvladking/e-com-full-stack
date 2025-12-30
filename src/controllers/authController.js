@@ -1,9 +1,9 @@
-import connectDB from '@/lib/db';
+import { connectDB } from "@/lib/db";
 import User from '@/models/User';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-export async function signup({ name, email, password }) {
+export async function register({ name, email, password }) {
   await connectDB();
 
   if (!name || !email || !password) {
@@ -18,11 +18,7 @@ export async function signup({ name, email, password }) {
   const salt = await bcrypt.genSalt(10);
   const passwordHash = await bcrypt.hash(password, salt);
 
-  const user = await User.create({
-    name,
-    email,
-    password: passwordHash,
-  });
+  const user = await User.create({ name, email, password: passwordHash });
 
   const safeUser = {
     id: user._id.toString(),
@@ -32,14 +28,15 @@ export async function signup({ name, email, password }) {
     createdAt: user.createdAt,
   };
 
-  const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
-    expiresIn: '1h',
-  });
+  const token = jwt.sign(
+    { id: user._id, email: user.email },
+    process.env.JWT_SECRET,
+    { expiresIn: '1h' }
+  );
 
   return { safeUser, token };
 }
 
-// --- LOGIN ---
 export async function login({ email, password }) {
   await connectDB();
 
@@ -65,9 +62,11 @@ export async function login({ email, password }) {
     createdAt: user.createdAt,
   };
 
-  const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
-    expiresIn: '1h',
-  });
+  const token = jwt.sign(
+    { id: user._id, email: user.email },
+    process.env.JWT_SECRET,
+    { expiresIn: '1h'}
+  );
 
   return { safeUser, token };
 }
