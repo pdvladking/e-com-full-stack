@@ -1,44 +1,21 @@
-// src/app/api/auth/verify/route.js
-import jwt from "jsonwebtoken";
+import { NextResponse } from "next/server";
+import { verifyToken } from "@/lib/auth";
 
-export async function POST(req) {
+export async function GET(req) {
   try {
-    const body = await req.json();
-    const { token } = body;
+    const token = req.cookies.get("token")?.value;
 
     if (!token) {
-      return new Response(
-        JSON.stringify({ success: false, error: "Token required" }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      return NextResponse.json({ success: false, error: "No token provided" }, { status: 401 });
     }
 
-    // Verify and decode the JWT
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = verifyToken(token);
+    if (!decoded) {
+      return NextResponse.json({ success: false, error: "Invalid or expired token" }, { status: 401 });
+    }
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        data: decoded,
-      }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    return NextResponse.json({ success: true, user: decoded }, { status: 200 });
   } catch (error) {
-    return new Response(
-      JSON.stringify({
-        success: false,
-        error: "Invalid or expired token",
-      }),
-      {
-        status: 401,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

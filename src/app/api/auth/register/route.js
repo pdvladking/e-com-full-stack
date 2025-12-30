@@ -1,30 +1,47 @@
-import { register } from "@/controllers/authController";
+import { NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
+import { connectDB } from "@/lib/db";
+import User from "@/models/User";
+import { createToken } from "@/lib/auth";
 
 export async function POST(req) {
   try {
-    const body = await req.json();
-    const { safeUser, token } = await register(body);
+    await connectDB();
+    const { name, email, password } = await req.json();
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        data: { user: safeUser, token },
-      }),
-      {
-        status: 201,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    if (!name || !email || !password) {
+      return NextResponse.json({ success: false, error: "Missing fields" }, { status: 400 });
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return NextResponse.json({ success: false, error: "User already exists" }, { status: 400 });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await User.create({ name, email, password: hashedPassword, role: "user" });
+
+    const token = createToken(newUser);
+
+    const safeUser = {
+      id: newUser._id,
+      name: newUser.name,
+      email: newUser.email,
+      role: newUser.role,
+    };
+
+    const response = NextResponse.json({ success: true, user: safeUser }, { status: 200 });
+
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      sameSite: "strict",
+      path: "/",
+    });
+
+    return response;
   } catch (error) {
-    return new Response(
-      JSON.stringify({
-        success: false,
-        error: error.message,
-      }),
-      {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

@@ -21,9 +21,7 @@ export default function Button({
   children,
   variant = "primary",
   size = "md",
-  type = "button",
-  onClick,
-  targetId,
+  type = "submit",   
   disabled = false,
   loading = false,
   fullWidth = false,
@@ -42,20 +40,9 @@ export default function Button({
     .filter(Boolean)
     .join(" ");
 
-  const handleClick = (e) => {
-    if (onClick) onClick(e);
-    if (targetId) {
-      const section = document.getElementById(targetId);
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  };
-
   return (
     <button
       type={type}
-      onClick={handleClick}
       disabled={disabled || loading}
       aria-label={ariaLabel}
       className={classes}

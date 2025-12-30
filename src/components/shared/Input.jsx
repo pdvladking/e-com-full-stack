@@ -1,5 +1,7 @@
 "use client";
 
+import { forwardRef } from "react";
+
 const base =
   "block rounded-md border font-medium transition-colors focus:outline-none focus:ring-2 focus-offset-2 disabled:cursor-not-allowed";
 
@@ -15,74 +17,86 @@ const variants = {
   success: "border-green-500 focus:ring-green-500",
 };
 
-export default function Input({
-  label,  
-  id,             
-  type = "text",
-  size = "md",
-  variant = "default",
-  placeholder,
-  value,
-  onChange,
-  disabled = false,
-  fullWidth = false,
-  leftIcon = null,
-  rightIcon = null,
-  className = "",
-  ariaLabel,
-  errorMessage,
-}) {
-  const classes = [
-    base,
-    sizes[size] || sizes.md,
-    variants[variant] || variants.default,
-    fullWidth ? "w-full" : "",
-    className,
-  ]
-    .filter(Boolean)
-    .join(" ");
+const Input = forwardRef(
+  (
+    {
+      label,
+      id,
+      name,
+      type = "text",
+      size = "md",
+      variant = "default",
+      placeholder,
+      value,
+      onChange,
+      disabled = false,
+      fullWidth = false,
+      leftIcon = null,
+      rightIcon = null,
+      className = "",
+      ariaLabel,
+      errorMessage,
+    },
+    ref
+  ) => {
+    const classes = [
+      base,
+      sizes[size] || sizes.md,
+      variants[variant] || variants.default,
+      fullWidth ? "w-full" : "",
+      className,
+    ]
+      .filter(Boolean)
+      .join(" ");
 
-  return (
-    <div className="flex flex-col gap-1">
-      {label && (
-        <label
-          htmlFor={id}
-          className="text-sm font-medium text-neutral-700"
-        >
-          {label}
-        </label>
-      )}
+    return (
+      <div className="flex flex-col gap-1">
+        {label && (
+          <label
+            htmlFor={id || name}
+            className="text-sm font-medium text-neutral-700"
+          >
+            {label}
+          </label>
+        )}
 
-      <div className="relative flex items-center">
-        {leftIcon ? (
-          <span className="absolute left-3 inline-flex text-gray-500">
-            {leftIcon}
-          </span>
-        ) : null}
+        <div className="relative flex items-center">
+          {leftIcon && (
+            <span className="absolute left-3 inline-flex text-gray-500">
+              {leftIcon}
+            </span>
+          )}
 
-        <input
-          id={id}
-          type={type}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          disabled={disabled}
-          aria-label={ariaLabel}
-          className={`${classes} ${
-            leftIcon ? "pl-10" : ""
-          } ${rightIcon ? "pr-10" : ""}`}
-        />
+          <input
+            ref={ref}
+            id={id || name}
+            name={name}
+            type={type}
+            {...(value !== undefined ? { value } : {})}
+            {...(onChange ? { onChange } : {})}
+            placeholder={placeholder}
+            disabled={disabled}
+            aria-label={ariaLabel}
+            className={`${classes} ${leftIcon ? "pl-10" : ""} ${
+              rightIcon ? "pr-10" : ""
+            }`}
+          />
 
-        {rightIcon ? (
-          <span className="absolute right-3 inline-flex text-gray-500">
-            {rightIcon}
-          </span>
-        ) : null}
+          {rightIcon && (
+            <span className="absolute right-3 inline-flex text-gray-500">
+              {rightIcon}
+            </span>
+          )}
+        </div>
+
+        {errorMessage && (
+          <span className="mt-1 text-sm text-red-600">{errorMessage}</span>
+        )}
       </div>
+    );
+  }
+);
 
-      {errorMessage && (
-        <span className="mt-1 text-sm text-red-600">{errorMessage}</span>
-      )}
-    </div>
-  );
-}
+Input.displayName = "Input";
+
+export default Input;

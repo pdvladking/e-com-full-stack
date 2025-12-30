@@ -1,31 +1,49 @@
-import { login } from "@/controllers/authController";
+import { NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
+import { connectDB } from "@/lib/db";
+import User from "@/models/User";
+import { createToken } from "@/lib/auth";
 
 export async function POST(req) {
   try {
-    const body = await req.json();
-    const { safeUser, token } = await login(body);
+    await connectDB();
+    const { email, password } = await req.json();
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        data: { user: safeUser, token },
-      }),
-      { status: 200,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    if (!email || !password) {
+      return NextResponse.json({ success: false, error: "Missing fields" }, { status: 400 });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return NextResponse.json({ success: false, error: "Invalid credentials" }, { status: 401 });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return NextResponse.json({ success: false, error: "Invalid credentials" }, { status: 401 });
+    }
+
+    const token = createToken(user);
+
+    const safeUser = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
+
+    const response = NextResponse.json({ success: true, user: safeUser }, { status: 200 });
+
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      sameSite: "strict",
+      path: "/",
+    });
+
+    return response;
   } catch (error) {
-    const statusCode = error.message === "Invalid crendentials" ? 401 : 400;
-
-    return new Response(
-      JSON.stringify({
-        success: false,
-        error: error.message,
-      }),
-      {
-        status: statusCode,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
