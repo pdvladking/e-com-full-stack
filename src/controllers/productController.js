@@ -1,4 +1,4 @@
-import connectDB from '@/lib/db';
+import { connectDB } from '@/lib/db';
 import Product from '@/models/Product';
 
 export async function getProducts() {
@@ -8,6 +8,30 @@ export async function getProducts() {
   } catch (error) {
     console.error('[Controller] ❌ getProducts error:', error);
     throw new Error(error.message || 'Failed to fetch products');
+  }
+}
+
+export async function getProductById(id) {
+  try {
+    await connectDB();
+    const product = await Product.findById(id);
+    if (!product) throw new Error('Product not found');
+    return { success: true, product };
+  } catch (error) {
+    console.error('[Controller] ❌ getProductById error:', error);
+    return { success: false, message: error.message || 'Failed to fetch product' };
+  }
+}
+
+export async function getProductBySlug(slug) {
+  try {
+    await connectDB();
+    const product = await Product.findOne({ slug });
+    if (!product) throw new Error('Product not found');
+    return { success: true, product };
+  } catch (error) {
+    console.error('[Controller] ❌ getProductBySlug error:', error);
+    return { success: false, message: error.message || 'Failed to fetch product' };
   }
 }
 
