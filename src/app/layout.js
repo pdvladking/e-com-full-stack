@@ -1,6 +1,7 @@
 import '@/app/styles/globals.css';
 import FooterSection from '@/components/ui/Footer';
 import Navbar from '@/components/ui/Navbar';
+import BackToTop from '@/components/ui/BackToTop';
 import { CartProvider } from '@/context/CartContext';
 import { AuthProvider } from '@/context/AuthContext';
 
@@ -18,6 +19,7 @@ export default function RootLayout({ children }) {
             <Navbar />
             {children}
             <FooterSection />
+            <BackToTop />
           </CartProvider>
         </AuthProvider>
       </body>

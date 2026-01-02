@@ -1,10 +1,16 @@
 "use client";
 import { useState } from "react";
 import Logo from "./Logo";
-import { FaBars, FaTimes, FaSearch, FaUser } from "react-icons/fa";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
-import CartBadge from "@/components/cart/CartBadge"; 
+import CartBadge from "@/components/cart/CartBadge";
+
+import {
+  Bars3Icon,
+  XMarkIcon,
+  MagnifyingGlassIcon,
+  UserIcon,
+} from "@heroicons/react/24/solid";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -30,7 +36,11 @@ export default function Navbar() {
         {/* Desktop navlinks */}
         <div className="hidden md:flex justify-center gap-6">
           {links.map((link) => (
-            <Link key={link.href} href={link.href} className="hover:text-neutral-900 transition">
+            <Link
+              key={link.href}
+              href={link.href}
+              className="hover:text-neutral-900 transition"
+            >
               {link.label}
             </Link>
           ))}
@@ -38,15 +48,16 @@ export default function Navbar() {
 
         {/* Right side icons */}
         <div className="flex gap-6 items-center relative">
-          <FaSearch className="text-xl cursor-pointer hover:text-neutral-900 transition" />
-          
-          {/* CartBadge  */}
+          {/* Search */}
+          <MagnifyingGlassIcon className="h-6 w-6 cursor-pointer hover:text-neutral-900 transition" />
+
+          {/* CartBadge */}
           <CartBadge />
 
-          {/* Auth via FaUser icon */}
+          {/* Auth via UserIcon */}
           <div className="relative">
-            <FaUser
-              className="text-xl cursor-pointer hover:text-neutral-900 transition"
+            <UserIcon
+              className="h-6 w-6 cursor-pointer hover:text-neutral-900 transition"
               onClick={() => setDropdown(!dropdown)}
             />
             {dropdown && (
@@ -79,9 +90,13 @@ export default function Navbar() {
             onClick={() => setOpen(!open)}
             aria-label="Toggle navigation menu"
             aria-expanded={open}
-            className="md:hidden focus:outline-none text-2xl"
+            className="md:hidden focus:outline-none"
           >
-            {open ? <FaTimes className="text-gray-700" /> : <FaBars />}
+            {open ? (
+              <XMarkIcon className="h-7 w-7 text-gray-700" />
+            ) : (
+              <Bars3Icon className="h-7 w-7 text-gray-700" />
+            )}
           </button>
         </div>
       </div>
