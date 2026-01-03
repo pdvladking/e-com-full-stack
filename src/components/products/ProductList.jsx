@@ -3,18 +3,17 @@ import ProductCard from "./ProductCard";
 
 export default function ProductList({ products }) {
   if (!products || products.length === 0) {
-    return <p className="text-center text-neutral-600">No products available</p>
+    return (
+      <p className="text-neutral-600">
+        No products available yet. Check back soon!
+      </p>
+    );
   }
 
   return (
-    <div className="flex flex-wrap gap-6 justify-center">
-      {products.map((p) => (
-        <ProductCard
-        key={p._id}
-        product={p}
-        showStock={true}
-        showAddToCart={true}
-        />
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {products.map((product) => (
+        <ProductCard key={product._id} product={product} />
       ))}
     </div>
   );

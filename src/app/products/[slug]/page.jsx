@@ -1,10 +1,9 @@
 import ProductCard from "@/components/products/ProductCard";
-import { getProductBySlug } from "@/controllers/productController";
-import { getProductById } from "@/services/productService";
+import { getProductById } from "@/controllers/productController";
 
 export default async function ProductPage({ params }) {
-  const { slug } = params;
-  const res = await getProductBySlug(slug);
+  const { id } = params;
+  const res = await getProductById(id);
 
   if (!res.success) {
     return (
