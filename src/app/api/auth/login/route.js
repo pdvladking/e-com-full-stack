@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
-import { connectDB } from "@/lib/db";
-import User from "@/models/User";
-import { createToken } from "@/lib/auth";
+import { createToken } from '@/lib/auth';
+import { connectDB } from '@/lib/dbConnect';
+import User from '@/models/User';
+import bcrypt from 'bcryptjs';
+import { NextResponse } from 'next/server';
 
 export async function POST(req) {
   try {
@@ -10,17 +10,17 @@ export async function POST(req) {
     const { email, password } = await req.json();
 
     if (!email || !password) {
-      return NextResponse.json({ success: false, error: "Missing fields" }, { status: 400 });
+      return NextResponse.json({ success: false, error: 'Missing fields' }, { status: 400 });
     }
 
     const user = await User.findOne({ email });
     if (!user) {
-      return NextResponse.json({ success: false, error: "Invalid credentials" }, { status: 401 });
+      return NextResponse.json({ success: false, error: 'Invalid credentials' }, { status: 401 });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return NextResponse.json({ success: false, error: "Invalid credentials" }, { status: 401 });
+      return NextResponse.json({ success: false, error: 'Invalid credentials' }, { status: 401 });
     }
 
     const token = createToken(user);
@@ -34,12 +34,12 @@ export async function POST(req) {
 
     const response = NextResponse.json({ success: true, user: safeUser }, { status: 200 });
 
-    response.cookies.set("token", token, {
+    response.cookies.set('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === 'production',
       maxAge: 60 * 60 * 24 * 7, // 7 days
-      sameSite: "strict",
-      path: "/",
+      sameSite: 'strict',
+      path: '/',
     });
 
     return response;

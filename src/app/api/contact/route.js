@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
-import { connectDB } from "@/lib/db";
-import Contact from "@/models/Contact";
+import { connectDB } from '@/lib/dbConnect';
+import Contact from '@/models/Contact';
+import { NextResponse } from 'next/server';
 
 export async function POST(request) {
   try {
@@ -8,7 +8,7 @@ export async function POST(request) {
     const { name, email, message } = body;
 
     if (!name || !email || !message) {
-      return NextResponse.json({ error: "All fields required" }, { status: 400 });
+      return NextResponse.json({ error: 'All fields required' }, { status: 400 });
     }
 
     await connectDB();
@@ -17,6 +17,6 @@ export async function POST(request) {
     return NextResponse.json({ success: true, data: newContact }, { status: 201 });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: "Server errror"}, { status: 500 });
+    return NextResponse.json({ error: 'Server errror' }, { status: 500 });
   }
 }

@@ -13,21 +13,19 @@ export default function ShopPage() {
       try {
         const res = await fetch("/api/products");
         const data = await res.json();
-
         if (res.ok) {
           setProducts(data);
         } else {
           setError(data.error || "Failed to load products");
         }
-      } catch (err) {
+      } catch {
         setError("Something went wrong while fetching products");
       } finally {
         setLoading(false);
       }
     };
-
     fetchProducts();
-  }, []);
+  },[]);
 
   if (loading) {
     return (
@@ -57,21 +55,28 @@ export default function ShopPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {products.map((product) => (
             <Link
-              key={product._id}
-              href={`/shop/${product._id}`}
-              className="border rounded-md p-4 hover:shadow-md transition"
+            key={product._id}
+            href={`/shop/${product._id}`}
+            aria-label={`View details for ${product.title}`}
+            className="border rounded-md pb-4 hover:shadow-lg hover:scale-[1.02] transition-transform duration-200"
             >
               <div className="relative w-full h-48">
                 <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-cover rounded"
-                  priority={false}
+                src={product.images?.[0]}
+                alt={product.title}
+                fill
+                sizes="(max-width: 768px) 100vw,
+                (max-width: 1200px) 50vw, 33vw"
+                className="object-cover rounded"
                 />
               </div>
-              <h2 className="text-lg font-semibold mt-2">{product.name}</h2>
-              <p className="text-neutral-700">${product.price}</p>
+              <h2 className="text-lg font-semibold mt-2">{product.title}</h2>
+              <p className="text-neutral-700">
+                {new Intl.NumberFormat("en-us", {
+                  style: "currency",
+                  currency: "USD",
+                }). format(product.price)}
+              </p>
             </Link>
           ))}
         </div>

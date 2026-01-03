@@ -1,4 +1,4 @@
-import { connectDB } from '@/lib/db';
+import { connectDB } from '@/lib/dbConnect';
 import Product from '@/models/Product';
 
 export async function getProducts() {

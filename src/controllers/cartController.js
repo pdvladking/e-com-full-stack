@@ -1,5 +1,5 @@
-import { connectDB } from "@/lib/db";
-import User from "@/models/User";
+import { connectDB } from '@/lib/dbConnect';
+import User from '@/models/User';
 
 export async function addToCart({ userId, productId, quantity }) {
   await connectDB();
@@ -17,9 +17,7 @@ export async function addToCart({ userId, productId, quantity }) {
     user.cart = [];
   }
 
-  const existingItem = user.cart.find(
-    (item) => item.productId.toString() === productId.toString()
-  );
+  const existingItem = user.cart.find((item) => item.productId.toString() === productId.toString());
 
   if (existingItem) {
     existingItem.quantity += quantity;
@@ -39,9 +37,7 @@ export async function removeFromCart({ userId, productId }) {
     throw new Error('User not found');
   }
 
-  user.cart = user.cart.filter(
-    (item) => item.productId.toString() !== productId.toString()
-  );
+  user.cart = user.cart.filter((item) => item.productId.toString() !== productId.toString());
 
   await user.save();
   return user.cart;
@@ -54,6 +50,6 @@ export async function getCart({ userId }) {
   if (!user) {
     throw new Error('User not found');
   }
-  
+
   return user.cart;
 }

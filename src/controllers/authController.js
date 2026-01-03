@@ -1,4 +1,4 @@
-import { connectDB } from "@/lib/db";
+import { connectDB } from '@/lib/dbConnect';
 import User from '@/models/User';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -28,11 +28,9 @@ export async function register({ name, email, password }) {
     createdAt: user.createdAt,
   };
 
-  const token = jwt.sign(
-    { id: user._id, email: user.email },
-    process.env.JWT_SECRET,
-    { expiresIn: '1h' }
-  );
+  const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
+    expiresIn: '1h',
+  });
 
   return { safeUser, token };
 }
@@ -62,11 +60,9 @@ export async function login({ email, password }) {
     createdAt: user.createdAt,
   };
 
-  const token = jwt.sign(
-    { id: user._id, email: user.email },
-    process.env.JWT_SECRET,
-    { expiresIn: '1h'}
-  );
+  const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
+    expiresIn: '1h',
+  });
 
   return { safeUser, token };
 }

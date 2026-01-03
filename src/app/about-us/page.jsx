@@ -47,9 +47,6 @@ export default function About() {
               <ButtonLink href="/shop" variant="primary" size="md">
                 Explore Products
               </ButtonLink>
-              <ButtonLink href="/contact" variant="secondary" size="md">
-                Get in Touch
-              </ButtonLink>
             </div>
           </div>
         </div>
