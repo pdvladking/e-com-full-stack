@@ -1,9 +1,9 @@
-import { connectDB } from '@/lib/dbConnect';
+import dbConnect from '@/lib/dbConnect';
 import Product from '@/models/Product';
 
 export async function getProducts() {
   try {
-    await connectDB();
+    await dbConnect();
     return await Product.find({});
   } catch (error) {
     console.error('[Controller] ❌ getProducts error:', error);
@@ -13,7 +13,7 @@ export async function getProducts() {
 
 export async function getProductById(id) {
   try {
-    await connectDB();
+    await dbConnect();
     const product = await Product.findById(id);
     if (!product) throw new Error('Product not found');
     return { success: true, product };
@@ -25,7 +25,7 @@ export async function getProductById(id) {
 
 export async function getProductBySlug(slug) {
   try {
-    await connectDB();
+    await dbConnect();
     const product = await Product.findOne({ slug });
     if (!product) throw new Error('Product not found');
     return { success: true, product };
@@ -37,7 +37,7 @@ export async function getProductBySlug(slug) {
 
 export async function createProduct(data) {
   try {
-    await connectDB();
+    await dbConnect();
     if (!data.title || !data.price) {
       throw new Error('Title and price are required');
     }
@@ -50,7 +50,7 @@ export async function createProduct(data) {
 
 export async function updateProduct(id, data) {
   try {
-    await connectDB();
+    await dbConnect();
     const updated = await Product.findByIdAndUpdate(id, data, {
       new: true,
       runValidators: true,
@@ -65,7 +65,7 @@ export async function updateProduct(id, data) {
 
 export async function deleteProduct(id) {
   try {
-    await connectDB();
+    await dbConnect();
     const deleted = await Product.findByIdAndDelete(id);
     if (!deleted) throw new Error('Product not found');
     return { message: 'Product deleted successfully', deleted };

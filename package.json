@@ -2,11 +2,13 @@
   "name": "e-com-full-stack",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed": "node scripts/seed.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
