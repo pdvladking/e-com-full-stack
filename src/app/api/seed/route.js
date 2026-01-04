@@ -3,7 +3,7 @@ import Product from '@/models/Product';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  await connectDB();
+  await dbConnect(); 
   await Product.deleteMany({});
   await Product.insertMany([
     { name: 'leather bag', price: 1200, description: 'High-end bag', image: '/bag.webp' },

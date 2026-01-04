@@ -11,12 +11,12 @@ export async function POST(request) {
       return NextResponse.json({ error: 'All fields required' }, { status: 400 });
     }
 
-    await connectDB();
+    await dbConnect();
     const newContact = await Contact.create({ name, email, message });
 
     return NextResponse.json({ success: true, data: newContact }, { status: 201 });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: 'Server errror' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

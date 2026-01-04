@@ -6,8 +6,8 @@ import Button from "@/components/ui/Button";
 
 export default function LoginPage() {
   const { login } = useAuth();
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,9 +26,23 @@ export default function LoginPage() {
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
       <h1 className="text-2xl font-semibold mb-6 text-center">Login</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <Input name="email" type="email" placeholder="Email Address" required ref={emailRef} />
-        <Input name="password" type="password" placeholder="Password" required ref={passwordRef} />
-        <Button type="submit" variant="primary" fullWidth>Login</Button>
+        <Input
+          name="email"
+          type="email"
+          placeholder="Email Address"
+          required
+          ref={emailRef}
+        />
+        <Input
+          name="password"
+          type="password"
+          placeholder="Password"
+          required
+          ref={passwordRef}
+        />
+        <Button type="submit" variant="primary" fullWidth>
+          Login
+        </Button>
       </form>
     </div>
   );
