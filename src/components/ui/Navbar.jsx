@@ -117,29 +117,6 @@ export default function Navbar() {
             {link.label}
           </Link>
         ))}
-
-        {/* Auth dropdown for mobile */}
-        <div className="flex flex-col items-center gap-2 mt-2">
-          {!user && (
-            <>
-              <Link href="/login" onClick={handleLinkClick} className="hover:text-neutral-900 transition">Login</Link>
-              <Link href="/register" onClick={handleLinkClick} className="hover:text-neutral-900 transition">Register</Link>
-            </>
-          )}
-          {user?.role === "user" && (
-            <>
-              <Link href="/user/profile" onClick={handleLinkClick} className="hover:text-neutral-900 transition">Profile</Link>
-              <Link href="/user/orders" onClick={handleLinkClick} className="hover:text-neutral-900 transition">Orders</Link>
-              <button onClick={logout} className="hover:text-neutral-900 transition">Logout</button>
-            </>
-          )}
-          {user?.role === "admin" && (
-            <>
-              <Link href="/admin/products" onClick={handleLinkClick} className="hover:text-neutral-900 transition">Dashboard</Link>
-              <button onClick={logout} className="hover:text-neutral-900 transition">Logout</button>
-            </>
-          )}
-        </div>
       </div>
     </nav>
   );
