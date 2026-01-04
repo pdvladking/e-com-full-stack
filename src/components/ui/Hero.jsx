@@ -8,7 +8,7 @@ export default function Hero() {
       
       {/* Background Image */}
       <Image
-      src="/images/heroSection.webp"
+      src="/images/HeroSection.webp"
       alt="Hero banner"
       fill
       priority
