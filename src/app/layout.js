@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
         <AuthProvider>
           <CartProvider>
             <Navbar />
-            {children}
+            <main>{children}</main>
             <FooterSection />
             <BackToTop />
           </CartProvider>

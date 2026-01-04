@@ -1,8 +1,8 @@
 import { createToken } from '@/lib/auth';
-import { connectDB } from '@/lib/dbConnect';
+import { NextResponse } from 'next/server';
+import dbConnect from '@/lib/dbConnect';
 import User from '@/models/User';
 import bcrypt from 'bcryptjs';
-import { NextResponse } from 'next/server';
 
 export async function POST(req) {
   try {
