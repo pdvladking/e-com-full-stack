@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🛒 E‑Com Full‑Stack Application
 
-## Getting Started
+A modern full‑stack e‑commerce platform built with **Next.js** and **MongoDB**, showcasing seamless data flows between frontend and backend. Features include product browsing, cart management, and order processing with a scalable architecture.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Next.js Frontend**
+  - Server‑side rendering (SSR) for SEO‑friendly product pages
+  - Dynamic routing for product details
+  - Responsive UI with Tailwind CSS / custom components
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- **MongoDB Data Layer**
+  - Centralized product catalog
+  - User accounts and authentication
+  - Cart and order persistence
+  - Real‑time updates with API routes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Authentication & Security**
+  - JWT‑based login/signup
+  - Role‑based access (Admin vs Customer)
+  - Secure password hashing with bcrypt
 
-## Learn More
+- **E‑Commerce Essentials**
+  - Product browsing and search
+  - Add to cart / remove from cart
+  - Checkout flow with order confirmation
+  - Admin dashboard for product and order management
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Layer        | Technology |
+|--------------|------------|
+| Frontend     | Next.js, React, Tailwind CSS |
+| Backend      | Next.js API Routes (Node.js) |
+| Database     | MongoDB, Mongoose |
+| Authentication | JWT, bcrypt |
+| Deployment   | Vercel (frontend + API), MongoDB Atlas |
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
